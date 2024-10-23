@@ -50,4 +50,6 @@ public class User {
     }
 
     //Her setter vi inn relevante metoder
+
+    // hei hei
 }
