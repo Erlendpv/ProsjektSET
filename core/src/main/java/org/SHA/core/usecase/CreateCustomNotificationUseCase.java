@@ -3,7 +3,7 @@ package org.SHA.core.usecase;
 import org.SHA.core.domain.CustomNotification;
 import org.SHA.core.port.NotificationRepository;
 
-//hei
+//heihei
 public class CreateCustomNotificationUseCase {
     private final NotificationRepository notificationRepository;
 
