@@ -1,4 +1,5 @@
 package org.SHA.core.domain;
+//Hola
 
 public class CustomNotification extends Notification {
     private String userId;
