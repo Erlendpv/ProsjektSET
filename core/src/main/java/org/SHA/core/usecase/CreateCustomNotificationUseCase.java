@@ -14,5 +14,5 @@ public class CreateCustomNotificationUseCase {
         CustomNotification notification = new CustomNotification(notificationId, message, userId, condition);
         notificationRepository.save(notification);
     }
-    //heiheiheiheidfhdhddskddkjerehei
+    //heiheiheiheidfhdhddskddkjerrehei
 }
