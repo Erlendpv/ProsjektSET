@@ -10,7 +10,7 @@ public class CreateCustomNotificationUseCase {
     public CreateCustomNotificationUseCase(NotificationRepository notificationRepository){
         this.notificationRepository = notificationRepository;
     }
-    public void execute(String notificationId, String message, String userId, String condition){
+    public  void execute(String notificationId, String message, String userId, String condition){
         CustomNotification notification = new CustomNotification(notificationId, message, userId, condition);
         notificationRepository.save(notification);
     }
