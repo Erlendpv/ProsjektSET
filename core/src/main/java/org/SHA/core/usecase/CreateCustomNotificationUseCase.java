@@ -2,7 +2,7 @@ package org.SHA.core.usecase;
 import org.SHA.core.domain.CustomNotification;
 import java.time.LocalDateTime;
 
-// Use case for å opprette tilpassede varsler
+// Use case klasse for å opprette tilpassede varsler
 public class CreateCustomNotificationUseCase {
 
     // Oppretter og returnerer et CustomNotification-objekt
