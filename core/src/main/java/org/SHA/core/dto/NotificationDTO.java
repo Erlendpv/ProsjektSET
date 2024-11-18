@@ -3,16 +3,13 @@ package org.SHA.core.dto;
 public class NotificationDTO {
     private String notificationId;
     private String message;
-    private String type; // "premade" or "custom"
-    private String category; // for premade notifications
-    private String condition; // for custom notifications
+    private String recipient;
 
-    public NotificationDTO(String notificationId, String message, String type, String category, String condition) {
+    // Konstruktør, gettere og settere
+    public NotificationDTO(String notificationId, String message, String recipient) {
         this.notificationId = notificationId;
         this.message = message;
-        this.type = type;
-        this.category = category;
-        this.condition = condition;
+        this.recipient = recipient;
     }
 
     public String getNotificationId() {
@@ -31,27 +28,11 @@ public class NotificationDTO {
         this.message = message;
     }
 
-    public String getType() {
-        return type;
+    public String getRecipient() {
+        return recipient;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public String getCondition() {
-        return condition;
-    }
-
-    public void setCondition(String condition) {
-        this.condition = condition;
+    public void setRecipient(String recipient) {
+        this.recipient = recipient;
     }
 }
