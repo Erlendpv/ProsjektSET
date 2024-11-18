@@ -1,32 +1,30 @@
 package org.SHA.core.domain;
-//Hola
+
+import java.time.LocalDateTime;
+
 
 public class CustomNotification extends Notification {
-    private String userId;
-    private String condition;
+    private LocalDateTime scheduledTime;
 
-    public CustomNotification(String notificationId, String message, String userId, String condition) {
-        super(notificationId, message);
-        this.userId = userId;
-        this.condition = condition;
+    public CustomNotification(String notificationId, String message, String recipient, LocalDateTime scheduledTime) {
+        super(notificationId, message, recipient);
+        this.scheduledTime = scheduledTime;
     }
 
     @Override
-    public void trigger() {}
-
-    public String getUserId() {
-        return userId;
+    public void trigger() {
+        if (LocalDateTime.now().isAfter(scheduledTime)) {
+            System.out.println("Tilpasset varsel sendt til " + getRecipient() + ": " + getMessage());
+        } else {
+            System.out.println("Varsel planlagt for: " + scheduledTime);
+        }
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public LocalDateTime getScheduledTime() {
+        return scheduledTime;
     }
 
-    public String getCondition() {
-        return condition;
-    }
-
-    public void setCondition(String condition) {
-        this.condition = condition;
+    public void setScheduledTime(LocalDateTime scheduledTime) {
+        this.scheduledTime = scheduledTime;
     }
 }
