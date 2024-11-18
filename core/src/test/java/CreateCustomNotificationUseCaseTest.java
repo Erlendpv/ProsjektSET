@@ -1,7 +1,7 @@
 import static org.mockito.Mockito.*;
 import org.SHA.core.domain.CustomNotification;
 import org.SHA.core.port.NotificationRepository;
-import org.SHA.core.usecase.CreateCustomNotificationUseCase;
+import org.SHA.core.usecase.CreateCustomNotification;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
@@ -14,7 +14,7 @@ public class CreateCustomNotificationUseCaseTest {
         NotificationRepository mockRepository = mock(NotificationRepository.class);
 
 
-        CreateCustomNotificationUseCase useCase = new CreateCustomNotificationUseCase(mockRepository);
+        CreateCustomNotification useCase = new CreateCustomNotification(mockRepository);
 
         String testNotificationId = "3303";
         String testMessage = "test message";
