@@ -5,11 +5,11 @@ import org.SHA.core.domain.Device;
 import org.SHA.core.port.UserRepository;
 import org.SHA.core.port.DeviceRepository;
 
-public class AddDeviceUseCase {
+public class AddDeleteDeviceUseCase {
     private final UserRepository userRepository;
     private final DeviceRepository deviceRepository;
 
-    public AddDeviceUseCase(UserRepository userRepository, DeviceRepository deviceRepository) {
+    public AddDeleteDeviceUseCase(UserRepository userRepository, DeviceRepository deviceRepository) {
         this.userRepository = userRepository;
         this.deviceRepository = deviceRepository;
     }
