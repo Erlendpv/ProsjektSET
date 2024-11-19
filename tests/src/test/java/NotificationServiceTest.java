@@ -1,10 +1,11 @@
-import org.SHA.core.port.NotificationRepositoryStub;
-import org.junit.Test;
-import static org.junit.Assert.*;
 import org.SHA.core.domain.Notification;
 import org.SHA.core.domain.PremadeNotification;
+import org.SHA.core.port.NotificationRepositoryStub;
 import org.SHA.core.port.NotificationService;
+import org.junit.Test;
 import java.util.List;
+import static org.junit.Assert.*;
+
 
 public class NotificationServiceTest {
 

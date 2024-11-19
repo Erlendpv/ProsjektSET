@@ -2,7 +2,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.SHA.core.domain.CustomNotification;
 import org.SHA.core.usecase.CreateCustomNotificationUseCase;
-
 import java.time.LocalDateTime;
 
 public class CreateCustomNotificationTest {
