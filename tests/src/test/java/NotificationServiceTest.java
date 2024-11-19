@@ -6,35 +6,43 @@ import org.junit.Test;
 import java.util.List;
 import static org.junit.Assert.*;
 
-
+// Testklasse for NotificationService.
 public class NotificationServiceTest {
 
     @Test
     public void testSendNotification() {
+        // Oppretter en stub for lagring av varsler
         NotificationRepositoryStub repository = new NotificationRepositoryStub();
+        // Oppretter tjeneste for varsler
         NotificationService service = new NotificationService(repository);
-
-        Notification notification = new PremadeNotification("001", "Test Message", "user@example.com");
-
+        // Oppretter et varsel
+        Notification notification = new PremadeNotification("001", "Testmelding", "bruker@eksempel.com");
+        // Sender varslet
         service.sendNotification(notification);
 
+        // Henter alle varsler fra repository
         List<Notification> notifications = repository.findAll();
-        assertEquals(1, notifications.size());
-        assertEquals("Test Message", notifications.get(0).getMessage());
+        assertEquals(1, notifications.size()); // Sjekker at ett varsel er lagret
+        assertEquals("Testmelding", notifications.get(0).getMessage()); // Sjekker innholdet i varslet
     }
 
     @Test
     public void testGetAllNotifications() {
+        // Oppretter en stub for lagring av varsler
         NotificationRepositoryStub repository = new NotificationRepositoryStub();
+        // Oppretter tjeneste for varsler
         NotificationService service = new NotificationService(repository);
 
-        Notification notification1 = new PremadeNotification("001", "Message 1", "user1@example.com");
-        Notification notification2 = new PremadeNotification("002", "Message 2", "user2@example.com");
+        // Oppretter to varsler
+        Notification notification1 = new PremadeNotification("001", "Melding 1", "bruker1@eksempel.com");
+        Notification notification2 = new PremadeNotification("002", "Melding 2", "bruker2@eksempel.com");
 
+        // Sender varslene
         service.sendNotification(notification1);
         service.sendNotification(notification2);
 
+        // Henter alle varsler fra tjenesten
         List<Notification> notifications = service.getAllNotifications();
-        assertEquals(2, notifications.size());
+        assertEquals(2, notifications.size()); // Sjekker at to varsler er lagret
     }
 }
