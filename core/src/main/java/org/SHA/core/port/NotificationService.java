@@ -13,6 +13,10 @@ public class NotificationService {
 
     // Sender et varsel og lagrer det i repositoryet, og håndterer feil.
     public void sendNotification(Notification notification) {
+        if (notification == null) {
+            System.err.println("Varsel er null. Kan ikke sende et null-varsel.");
+            return;
+        }
         try {
             notification.trigger();
             repository.save(notification);
@@ -23,6 +27,11 @@ public class NotificationService {
 
     // Henter alle lagrede varsler
     public List<Notification> getAllNotifications() {
-        return repository.findAll();
+        List<Notification> notifications = repository.findAll();
+        if (notifications == null) {
+            System.err.println("Ingen varsler funnet.");
+            return List.of();
+        }
+        return notifications;
     }
 }

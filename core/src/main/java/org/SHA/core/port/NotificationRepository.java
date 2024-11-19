@@ -5,10 +5,14 @@ import java.util.List;
 
 // Repository for å lagre og hente varsler
 public class NotificationRepository {
-    private List<Notification> notifications = new ArrayList<>();
+    private final List<Notification> notifications = new ArrayList<>();
 
     // Lagrer et varsel i repositoryet
     public void save(Notification notification) {
+        if (notification == null) {
+            System.err.println("Kan ikke lagre et null-varsel.");
+            return;
+        }
         notifications.add(notification);
     }
 
