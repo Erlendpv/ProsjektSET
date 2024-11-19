@@ -1,16 +1,14 @@
 package org.SHA.core.domain;
-
 import java.time.LocalDateTime;
 
-/**
- * Abstrakt baseklasse for varsler.
- */
+// Klasse for varsler
 public abstract class Notification {
-    private String notificationId;
-    private String message;
-    private String recipient; // For push-varsler
-    private LocalDateTime timestamp;
+    private String notificationId; // Unik ID
+    private String message; // Varselmelding
+    private String recipient; // Mottaker
+    private LocalDateTime timestamp; // Opprettelsestid
 
+    // Oppretter et varsel
     public Notification(String notificationId, String message, String recipient) {
         this.notificationId = notificationId;
         this.message = message;
@@ -18,6 +16,7 @@ public abstract class Notification {
         this.timestamp = LocalDateTime.now();
     }
 
+    // Metode for å utløse varselet
     public abstract void trigger();
 
     // Gettere og settere

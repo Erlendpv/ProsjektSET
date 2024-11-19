@@ -21,7 +21,6 @@ public class NotificationService {
         }
     }
 
-
     // Henter alle lagrede varsler
     public List<Notification> getAllNotifications() {
         return repository.findAll();
