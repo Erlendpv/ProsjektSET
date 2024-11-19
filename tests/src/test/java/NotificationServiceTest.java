@@ -20,7 +20,7 @@ public class NotificationServiceTest {
 
         List<Notification> notifications = repository.findAll();
         assertEquals(1, notifications.size());
-        assertEquals("Test Message", notifications.getFirst().getMessage());
+        assertEquals("Test Message", notifications.get(0).getMessage());
     }
 
     @Test

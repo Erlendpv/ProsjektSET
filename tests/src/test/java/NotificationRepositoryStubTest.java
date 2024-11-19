@@ -18,7 +18,7 @@ public class NotificationRepositoryStubTest {
 
         List<Notification> notifications = repository.findAll();
         assertEquals(1, notifications.size());
-        assertEquals("001", notifications.getFirst().getNotificationId());
+        assertEquals("001", notifications.get(0).getNotificationId());
     }
 
     @Test
