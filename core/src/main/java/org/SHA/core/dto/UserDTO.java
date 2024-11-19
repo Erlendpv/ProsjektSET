@@ -2,12 +2,14 @@ package org.SHA.core.dto;
 
 import java.util.List;
 
+//Bruker data og enhets-IDer som skal kommuniseres
 public class UserDTO {
     private String userId;
     private String username;
     private String email;
     private List<String> deviceIds;
 
+    //For å lage userDTO-instans
     public UserDTO(String userId, String username, String email, List<String> deviceIds) {
         this.userId = userId;
         this.username = username;
@@ -15,6 +17,7 @@ public class UserDTO {
         this.deviceIds = deviceIds;
     }
 
+    //For å kunne endre og oppdatere data i userDTO
     public String getUserId() {
         return userId;
     }
