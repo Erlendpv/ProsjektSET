@@ -1,5 +1,4 @@
 package org.SHA.core.port;
-
 import org.SHA.core.domain.User;
 import java.util.List;
 import java.util.Optional;

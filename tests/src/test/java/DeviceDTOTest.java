@@ -1,7 +1,7 @@
-
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.SHA.core.dto.DeviceDTO;
+
 
 public class DeviceDTOTest {
 
