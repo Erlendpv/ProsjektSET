@@ -45,4 +45,21 @@ public class NotificationServiceTest {
         List<Notification> notifications = service.getAllNotifications();
         assertEquals(2, notifications.size()); // Sjekker at to varsler er lagret
     }
+
+    @Test
+    public void testGetPremadeNotifications() {
+        // Oppretter en stub for lagring av varsler
+        NotificationRepositoryStub repository = new NotificationRepositoryStub();
+        // Oppretter tjeneste for varsler
+        NotificationService service = new NotificationService(repository);
+
+        // Henter forhåndsdefinerte varsler
+        List<Notification> premadeNotifications = service.getPremadeNotifications();
+        assertEquals(3, premadeNotifications.size()); // Sjekker at tre forhåndsdefinerte varsler er tilgjengelige
+        assertEquals("Husk å ta ut søpla!", premadeNotifications.get(0).getMessage()); // Sjekker innholdet i det første varslet
+        assertEquals("Komfyren står fortsatt på!", premadeNotifications.get(1).getMessage()); // Sjekker innholdet i det andre varslet
+        assertEquals("Vaskemaskinen er ferdig.", premadeNotifications.get(2).getMessage()); // Sjekker innholdet i det tredje varslet
+    }
 }
+
+

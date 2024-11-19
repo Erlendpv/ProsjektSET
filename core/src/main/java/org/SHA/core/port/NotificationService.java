@@ -1,5 +1,7 @@
 package org.SHA.core.port;
 import org.SHA.core.domain.Notification;
+import org.SHA.core.domain.PremadeNotification;
+import java.util.ArrayList;
 import java.util.List;
 
 // Klasse for håndtering av varsler
@@ -11,15 +13,15 @@ public class NotificationService {
         this.repository = repository;
     }
 
-    // Sender et varsel og lagrer det i repositoryet, og håndterer feil.
+    // Sender et varsel og lagrer det i repositoryet
     public void sendNotification(Notification notification) {
         if (notification == null) {
             System.err.println("Varsel er null. Kan ikke sende et null-varsel.");
             return;
         }
         try {
-            notification.trigger();
-            repository.save(notification);
+            notification.trigger(); // Utfører varselet
+            repository.save(notification); // Lagrer varselet i repositoryet
         } catch (Exception e) {
             System.err.println("Feil under sending av varsel: " + e.getMessage());
         }
@@ -27,11 +29,15 @@ public class NotificationService {
 
     // Henter alle lagrede varsler
     public List<Notification> getAllNotifications() {
-        List<Notification> notifications = repository.findAll();
-        if (notifications == null) {
-            System.err.println("Ingen varsler funnet.");
-            return List.of();
-        }
-        return notifications;
+        return repository.findAll(); // Returnerer alle lagrede varsler
+    }
+
+    // Henter forhåndsdefinerte varsler
+    public List<Notification> getPremadeNotifications() {
+        List<Notification> premadeNotifications = new ArrayList<>();
+        premadeNotifications.add(new PremadeNotification("001", "Husk å ta ut søpla!", "bruker@eksempel.no"));
+        premadeNotifications.add(new PremadeNotification("002", "Komfyren står fortsatt på!", "bruker@eksempel.no"));
+        premadeNotifications.add(new PremadeNotification("003", "Vaskemaskinen er ferdig.", "bruker@eksempel.no"));
+        return premadeNotifications;
     }
 }
