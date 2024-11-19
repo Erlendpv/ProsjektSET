@@ -3,7 +3,6 @@ import static org.junit.Assert.*;
 import org.SHA.core.domain.Notification;
 import org.SHA.core.domain.PremadeNotification;
 import org.SHA.core.port.NotificationService;
-
 import java.util.List;
 
 public class NotificationServiceTest {
@@ -19,7 +18,7 @@ public class NotificationServiceTest {
 
         List<Notification> notifications = repository.findAll();
         assertEquals(1, notifications.size());
-        assertEquals("Test Message", notifications.get(0).getMessage());
+        assertEquals("Test Message", notifications.getFirst().getMessage());
     }
 
     @Test

@@ -1,5 +1,5 @@
+import org.junit.Assert;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.SHA.core.domain.CustomNotification;
 import org.SHA.core.usecase.CreateCustomNotificationUseCase;
 
@@ -16,10 +16,10 @@ public class CreateCustomNotificationTest {
                 "001", "Custom Message", "user@example.com", scheduledTime
         );
 
-        assertNotNull(notification);
-        assertEquals("001", notification.getNotificationId());
-        assertEquals("Custom Message", notification.getMessage());
-        assertEquals("user@example.com", notification.getRecipient());
-        assertEquals(scheduledTime, notification.getScheduledTime());
+        Assert.assertNotNull(notification);
+        Assert.assertEquals("001", notification.getNotificationId());
+        Assert.assertEquals("Custom Message", notification.getMessage());
+        Assert.assertEquals("user@example.com", notification.getRecipient());
+        Assert.assertEquals(scheduledTime, notification.getScheduledTime());
     }
 }
