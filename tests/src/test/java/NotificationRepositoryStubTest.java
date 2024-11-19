@@ -1,3 +1,4 @@
+import org.SHA.core.port.NotificationRepositoryStub;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.SHA.core.domain.Notification;
