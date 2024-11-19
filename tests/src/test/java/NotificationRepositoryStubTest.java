@@ -3,8 +3,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.SHA.core.domain.Notification;
 import org.SHA.core.domain.PremadeNotification;
-
-
 import java.util.List;
 
 public class NotificationRepositoryStubTest {
