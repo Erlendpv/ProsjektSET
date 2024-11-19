@@ -1,7 +1,7 @@
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.SHA.core.domain.CustomNotification;
-import org.SHA.core.usecase.CreateCustomNotification;
+import org.SHA.core.usecase.CreateCustomNotificationUseCase;
 
 import java.time.LocalDateTime;
 
@@ -9,7 +9,7 @@ public class CreateCustomNotificationTest {
 
     @Test
     public void testCreateCustomNotification() {
-        CreateCustomNotification creator = new CreateCustomNotification();
+        CreateCustomNotificationUseCase creator = new CreateCustomNotificationUseCase();
 
         LocalDateTime scheduledTime = LocalDateTime.now().plusHours(1);
         CustomNotification notification = creator.create(
