@@ -20,6 +20,12 @@ public class UserTest {
         assertTrue(user.getDevices().isEmpty());
     }
 
+    //Test for å se om illegalargumentexception blir brukt når Email er ugyldig
+    @Test
+    public void testUgyldigEmail() {
+        User user = new User("202", "Benji", "Benji@hotmail.com");
+    }
+
     //Tester om 1 enhet har blit lagt til og om det er den bestemte enheten.
     @Test
     public void testAddDevice() {
@@ -32,7 +38,15 @@ public class UserTest {
         user.addDevice(device);
 
         //Assert
-        assertEquals(1, user.getDevices().size());
-        assertTrue("Device-list inneholder lagt til enhet", user.getDevices().contains(device));
+        assertEquals(1, user.getDevices().size()); //test om listen inneholden 1 enhet
+        assertTrue(user.getDevices().contains(device)); //test for å se om bestemt enhet ble lagt til
+        assertFalse(user.getDevices().isEmpty()); //test for å se om listen er tom
     }
+
+    //
+    @Test
+    public void testRemoveDevice() {
+
+    }
+
 }
