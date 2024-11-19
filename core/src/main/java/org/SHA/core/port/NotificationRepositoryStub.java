@@ -1,6 +1,5 @@
+package org.SHA.core.port;
 import org.SHA.core.domain.Notification;
-import org.SHA.core.port.NotificationRepository;
-
 import java.util.ArrayList;
 import java.util.List;
 
