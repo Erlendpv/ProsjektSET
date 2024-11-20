@@ -1,10 +1,11 @@
 package org.SHA.core.domain;
 import java.time.LocalDateTime;
 
-// Tilpasset varsel med planlagt sending
+// Klasse for tilpassede varsler med planlagt sending
 public class CustomNotification extends Notification {
     private LocalDateTime scheduledTime;
 
+    // Konstruktør som oppretter et tilpasset varsel
     public CustomNotification(String notificationId, String message, String recipient, LocalDateTime scheduledTime) {
         super(notificationId, message, recipient);
         if (scheduledTime == null || scheduledTime.isBefore(LocalDateTime.now())) {
@@ -13,7 +14,7 @@ public class CustomNotification extends Notification {
         this.scheduledTime = scheduledTime;
     }
 
-    // Sjekker og sender varselet
+    // Metode som sjekker og sender varselet
     @Override
     public void trigger() {
         if (LocalDateTime.now().isAfter(scheduledTime)) {

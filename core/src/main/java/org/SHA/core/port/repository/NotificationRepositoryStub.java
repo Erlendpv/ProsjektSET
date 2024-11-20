@@ -1,13 +1,15 @@
 package org.SHA.core.port.repository;
-
 import org.SHA.core.domain.Notification;
 import java.util.ArrayList;
 import java.util.List;
 
-// Stub for NotificationRepository for testing
+// Denne klassen fungerer som en stub for NotificationRepository, og brukes primært for testing.
+// Den lagrer varsler i en liste og tilbyr funksjonalitet for å legge til, hente og slette varsler.
 public class NotificationRepositoryStub implements NotificationRepository {
     private final List<Notification> notifications = new ArrayList<>();
 
+
+    // Lagrer et varsel i listen. Kaster en feil hvis varselet er null.
     @Override
     public void save(Notification notification) {
         if (notification == null) {
@@ -16,13 +18,15 @@ public class NotificationRepositoryStub implements NotificationRepository {
         notifications.add(notification);
     }
 
+    // Returnerer en kopi av listen med varsler for å beskytte den interne strukturen.
     @Override
     public List<Notification> findAll() {
-        return new ArrayList<>(notifications); // Returnerer en kopi for å beskytte den interne listen
+        return new ArrayList<>(notifications);
     }
 
+    // Tømmer alle varsler fra listen.
     @Override
     public void clearAll() {
-        notifications.clear(); // Tømmer alle varsler
+        notifications.clear();
     }
 }

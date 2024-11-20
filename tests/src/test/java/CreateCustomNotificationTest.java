@@ -21,10 +21,10 @@ public class CreateCustomNotificationTest {
         );
 
         // Sjekker at varslet er korrekt opprettet
-        Assert.assertNotNull(notification); // Sjekker at varslet ikke er null
-        Assert.assertEquals("001", notification.getNotificationId()); // Sjekker ID
-        Assert.assertEquals("Tilpasset melding", notification.getMessage()); // Sjekker meldingen
-        Assert.assertEquals("bruker@eksempel.no", notification.getRecipient()); // Sjekker mottaker
-        Assert.assertEquals(scheduledTime, notification.getScheduledTime()); // Sjekker tidspunktet
+        Assert.assertNotNull(notification);
+        Assert.assertEquals("001", notification.getNotificationId());
+        Assert.assertEquals("Tilpasset melding", notification.getMessage());
+        Assert.assertEquals("bruker@eksempel.no", notification.getRecipient());
+        Assert.assertEquals(scheduledTime, notification.getScheduledTime());
     }
 }
