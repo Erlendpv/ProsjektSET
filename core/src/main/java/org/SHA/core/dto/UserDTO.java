@@ -10,7 +10,7 @@ public class UserDTO {
     private List<String> deviceIds;
 
     //For å lage userDTO-instans
-    public UserDTO(String userId, String username, String email, List<String> deviceIds) {
+    public UserDTO(String userId, String username, String email) {
         this.userId = userId;
         this.username = username;
         this.email = email;
