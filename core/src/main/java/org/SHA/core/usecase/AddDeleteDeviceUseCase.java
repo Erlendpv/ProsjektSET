@@ -25,7 +25,7 @@ public class AddDeleteDeviceUseCase {
         }
         User user = optionalUser.get();
 
-        // Generer en unik device ID
+        // Generer en unik device ID.
         String deviceId = generateUniqueDeviceId();
 
         // Opprett en ny enhet
