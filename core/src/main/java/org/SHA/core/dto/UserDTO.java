@@ -9,7 +9,7 @@ public class UserDTO {
     private String email;
     private List<String> deviceIds;
 
-    //For å lage userDTO-instans
+    //Konstruktør for 4 parametre
     public UserDTO(String userId, String username, String email, List<String> deviceIds) {
         this.userId = userId;
         this.username = username;

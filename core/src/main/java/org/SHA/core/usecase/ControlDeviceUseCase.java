@@ -1,6 +1,6 @@
 package org.SHA.core.usecase;
 
-import org.SHA.core.port.DeviceControlService;
+import org.SHA.core.port.service.DeviceControlService;
 import java.util.HashMap;
 import java.util.Map;
 

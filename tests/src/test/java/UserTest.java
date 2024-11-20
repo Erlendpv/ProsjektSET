@@ -20,13 +20,14 @@ public class UserTest {
         assertTrue(user.getDevices().isEmpty());
     }
 
+
     /*Test for å se om illegalargumentexception blir brukt når Email er ugyldig
     @Test
     public void testUgyldigEmail() {
-
     //Arrange
         User user = new User("202", "Benji", "Benji@hotmail.com");
     }*/
+
 
     //Tester om enhet har blit lagt til og om det er den bestemte enheten.
     @Test
