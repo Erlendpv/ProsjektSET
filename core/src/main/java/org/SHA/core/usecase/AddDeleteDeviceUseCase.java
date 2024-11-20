@@ -7,6 +7,7 @@ import org.SHA.core.port.repository.DeviceRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 public class AddDeleteDeviceUseCase {
     private final UserRepository userRepository;
@@ -16,20 +17,45 @@ public class AddDeleteDeviceUseCase {
         this.userRepository = userRepository;
         this.deviceRepository = deviceRepository;
     }
-    public void execute(String userId, String deviceId, String deviceType) {
+    public void execute(String userId, String deviceType) {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isEmpty()) {
-            throw new IllegalArgumentException("User not found with id: " + userId);
+            System.out.println("User not found with id: " + userId);
+            return;
         }
         User user = optionalUser.get();
 
+        // Generer en unik device ID.
+        String deviceId = generateUniqueDeviceId();
+
+        // Opprett en ny enhet
         Device device = new Device(deviceId, deviceType);
 
+        // Legg til enheten til brukeren
         user.addDevice(device);
 
+        // Lagre oppdateringer
         userRepository.save(user);
         deviceRepository.save(device);
     }
+    private String generateUniqueDeviceId() {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        Random random = new Random();
+        String deviceId;
+
+        do {
+            StringBuilder idBuilder = new StringBuilder();
+            for (int i = 0; i < 3; i++) {
+                int index = random.nextInt(characters.length());
+                idBuilder.append(characters.charAt(index));
+            }
+            deviceId = idBuilder.toString();
+        } while (deviceRepository.findById(deviceId) != null); // Sjekk mot eksisterende enheter
+
+        return deviceId;
+    }
+
+
     public boolean deleteDevice(String userId, String deviceId) {
         // Sjekk om enheten finnes i DeviceRepository
         Device device = deviceRepository.findById(deviceId);
