@@ -13,28 +13,7 @@ public class NotificationDTO {
         this.recipient = recipient;
     }
 
-    // Gettere og settere
-    public String getNotificationId() {
-        return notificationId;
-    }
-
-    public void setNotificationId(String notificationId) {
-        this.notificationId = notificationId;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public String getRecipient() {
-        return recipient;
-    }
-
-    public void setRecipient(String recipient) {
-        this.recipient = recipient;
-    }
+    public String getNotificationId() { return notificationId; }
+    public String getMessage() { return message; }
+    public String getRecipient() { return recipient; }
 }

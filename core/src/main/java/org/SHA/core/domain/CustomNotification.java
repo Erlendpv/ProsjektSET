@@ -5,9 +5,11 @@ import java.time.LocalDateTime;
 public class CustomNotification extends Notification {
     private LocalDateTime scheduledTime;
 
-    // Oppretter et tilpasset varsel
     public CustomNotification(String notificationId, String message, String recipient, LocalDateTime scheduledTime) {
         super(notificationId, message, recipient);
+        if (scheduledTime == null || scheduledTime.isBefore(LocalDateTime.now())) {
+            throw new IllegalArgumentException("Planlagt tid må være i fremtiden.");
+        }
         this.scheduledTime = scheduledTime;
     }
 
@@ -21,12 +23,7 @@ public class CustomNotification extends Notification {
         }
     }
 
-    // Getter og setter
     public LocalDateTime getScheduledTime() {
         return scheduledTime;
-    }
-
-    public void setScheduledTime(LocalDateTime scheduledTime) {
-        this.scheduledTime = scheduledTime;
     }
 }

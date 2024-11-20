@@ -1,11 +1,11 @@
 package org.SHA.core.prototype;
-import org.SHA.core.domain.CustomNotification;
 import org.SHA.core.domain.Notification;
-import org.SHA.core.domain.PremadeNotification;
 import org.SHA.core.dto.DeviceDTO;
 import org.SHA.core.dto.UserDTO;
+import org.SHA.core.port.repository.NotificationRepository;
 import org.SHA.core.port.repository.NotificationRepositoryStub;
-import org.SHA.core.port.service.NotificationService;
+import org.SHA.core.usecase.CreateCustomNotificationUseCase;
+import org.SHA.core.usecase.GetPremadeNotificationUseCase;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -18,8 +18,9 @@ public class PrototypeMain {
     private static final Map<String, List<UserDTO>> deviceUsers = new HashMap<>(); // Brukere koblet til enheter
 
     public static void main(String[] args) {
-        NotificationRepositoryStub repository = new NotificationRepositoryStub();
-        NotificationService service = new NotificationService(repository);
+        NotificationRepository repository = new NotificationRepositoryStub();
+        CreateCustomNotificationUseCase customNotificationUseCase = new CreateCustomNotificationUseCase();
+        GetPremadeNotificationUseCase premadeNotificationUseCase = new GetPremadeNotificationUseCase();
 
         Scanner scanner = new Scanner(System.in);
 
@@ -46,9 +47,9 @@ public class PrototypeMain {
                 case 3 -> tildelEnhetTilBruker(scanner);
                 case 4 -> visBrukereOgEnheter();
                 case 5 -> visEnheterOgBrukere();
-                case 6 -> sendForhandsdefinertVarsel(service, scanner);
-                case 7 -> opprettOgSendTilpassetVarsel(service, scanner);
-                case 8 -> visAlleVarsler(service);
+                case 6 -> sendForhandsdefinertVarsel(repository, premadeNotificationUseCase, scanner);
+                case 7 -> opprettOgSendTilpassetVarsel(repository, customNotificationUseCase, scanner);
+                case 8 -> visAlleVarsler(repository);
                 case 9 -> tomAlleVarsler(repository);
                 case 10 -> avslutt();
                 default -> System.out.println("Ugyldig valg, prøv igjen.");
@@ -66,7 +67,7 @@ public class PrototypeMain {
 
         UserDTO user = new UserDTO(id, navn, epost, new ArrayList<>());
         users.put(id, user);
-        userDevices.put(id, new ArrayList<>()); // Initialiser en tom liste med enheter for denne brukeren
+        userDevices.put(id, new ArrayList<>());
         System.out.println("Bruker lagt til: " + navn);
     }
 
@@ -80,7 +81,7 @@ public class PrototypeMain {
 
         DeviceDTO device = new DeviceDTO(deviceId, type, status);
         devices.put(deviceId, device);
-        deviceUsers.put(deviceId, new ArrayList<>()); // Initialiser en tom liste med brukere for denne enheten
+        deviceUsers.put(deviceId, new ArrayList<>());
         System.out.println("Enhet opprettet: " + type + " (ID: " + deviceId + ")");
     }
 
@@ -119,21 +120,15 @@ public class PrototypeMain {
         }
 
         System.out.println("\n--- Brukere og deres enheter ---");
-        for (String userId : users.keySet()) {
-            UserDTO user = users.get(userId);
-            System.out.println("Bruker-ID: " + user.getUserId());
-            System.out.println("Navn: " + user.getUsername());
-            System.out.println("E-post: " + user.getEmail());
-            List<DeviceDTO> devices = userDevices.get(userId);
+        for (Map.Entry<String, UserDTO> entry : users.entrySet()) {
+            UserDTO user = entry.getValue();
+            System.out.println("Bruker-ID: " + user.getUserId() + ", Navn: " + user.getUsername());
+            List<DeviceDTO> devices = userDevices.get(entry.getKey());
             if (devices.isEmpty()) {
-                System.out.println("  Ingen enheter koblet til denne brukeren.");
+                System.out.println("  Ingen enheter koblet til.");
             } else {
-                System.out.println("  Tilkoblede enheter:");
-                for (DeviceDTO device : devices) {
-                    System.out.println("    Enhets-ID: " + device.getDeviceId() + ", Type: " + device.getType() + ", Status: " + device.getStatus());
-                }
+                devices.forEach(device -> System.out.println("  Enhet: " + device.getType()));
             }
-            System.out.println("---------------------");
         }
     }
 
@@ -144,88 +139,65 @@ public class PrototypeMain {
         }
 
         System.out.println("\n--- Enheter og deres brukere ---");
-        for (String deviceId : devices.keySet()) {
-            DeviceDTO device = devices.get(deviceId);
-            System.out.println("Enhets-ID: " + device.getDeviceId());
-            System.out.println("Type: " + device.getType());
-            System.out.println("Status: " + device.getStatus());
-            List<UserDTO> usersForDevice = deviceUsers.get(deviceId);
+        for (Map.Entry<String, DeviceDTO> entry : devices.entrySet()) {
+            DeviceDTO device = entry.getValue();
+            System.out.println("Enhets-ID: " + device.getDeviceId() + ", Type: " + device.getType());
+            List<UserDTO> usersForDevice = deviceUsers.get(entry.getKey());
             if (usersForDevice.isEmpty()) {
-                System.out.println("  Ingen brukere koblet til denne enheten.");
+                System.out.println("  Ingen brukere koblet til.");
             } else {
-                System.out.println("  Tilkoblede brukere:");
-                for (UserDTO user : usersForDevice) {
-                    System.out.println("    Bruker-ID: " + user.getUserId() + ", Navn: " + user.getUsername());
-                }
+                usersForDevice.forEach(user -> System.out.println("  Bruker: " + user.getUsername()));
             }
-            System.out.println("---------------------");
         }
     }
 
-    private static void sendForhandsdefinertVarsel(NotificationService service, Scanner scanner) {
-        if (users.isEmpty()) {
-            System.out.println("Ingen brukere tilgjengelig. Legg til en bruker først.");
+    private static void sendForhandsdefinertVarsel(NotificationRepository repository, GetPremadeNotificationUseCase premadeNotificationUseCase, Scanner scanner) {
+        List<Notification> premadeNotifications = premadeNotificationUseCase.execute();
+        System.out.println("\nVelg et forhåndsdefinert varsel:");
+        for (int i = 0; i < premadeNotifications.size(); i++) {
+            System.out.println((i + 1) + ". " + premadeNotifications.get(i).getMessage());
+        }
+        int valg = scanner.nextInt() - 1;
+        scanner.nextLine();
+        if (valg < 0 || valg >= premadeNotifications.size()) {
+            System.out.println("Ugyldig valg.");
             return;
         }
 
-        System.out.print("Velg bruker-ID for mottaker: ");
-        String brukerId = scanner.nextLine();
-        if (!users.containsKey(brukerId)) {
-            System.out.println("Bruker-ID ikke funnet.");
-            return;
-        }
-
-        Notification notification = new PremadeNotification("001", "Dette er en testmelding!", brukerId);
-        service.sendNotification(notification);
-        System.out.println("Forhåndsdefinert varsel sendt til bruker: " + users.get(brukerId).getUsername());
+        Notification notification = premadeNotifications.get(valg);
+        repository.save(notification);
+        System.out.println("Varsel sendt: " + notification.getMessage());
     }
 
-    private static void opprettOgSendTilpassetVarsel(NotificationService service, Scanner scanner) {
-        if (users.isEmpty()) {
-            System.out.println("Ingen brukere tilgjengelig. Legg til en bruker først.");
-            return;
-        }
-
-        System.out.print("Velg bruker-ID for mottaker: ");
-        String brukerId = scanner.nextLine();
-        if (!users.containsKey(brukerId)) {
-            System.out.println("Bruker-ID ikke funnet.");
-            return;
-        }
-
+    private static void opprettOgSendTilpassetVarsel(NotificationRepository repository, CreateCustomNotificationUseCase customNotificationUseCase, Scanner scanner) {
         System.out.print("Skriv inn melding: ");
         String melding = scanner.nextLine();
 
-        LocalDateTime scheduledTime = LocalDateTime.now().plusMinutes(10);
+        System.out.print("Skriv inn mottaker: ");
+        String mottaker = scanner.nextLine();
 
-        Notification notification = new CustomNotification("002", melding, brukerId, scheduledTime);
-        service.sendNotification(notification);
-        System.out.println("Tilpasset varsel sendt til bruker: " + users.get(brukerId).getUsername());
+        LocalDateTime scheduledTime = LocalDateTime.now().plusMinutes(10);
+        Notification notification = customNotificationUseCase.create(UUID.randomUUID().toString(), melding, mottaker, scheduledTime);
+        repository.save(notification);
+        System.out.println("Tilpasset varsel opprettet og planlagt.");
     }
 
-    private static void visAlleVarsler(NotificationService service) {
-        List<Notification> notifications = service.getAllNotifications();
+    private static void visAlleVarsler(NotificationRepository repository) {
+        List<Notification> notifications = repository.findAll();
         if (notifications.isEmpty()) {
             System.out.println("Ingen varsler funnet.");
         } else {
             System.out.println("\n--- Lagrede varsler ---");
-            for (Notification notification : notifications) {
-                System.out.println("ID: " + notification.getNotificationId());
-                System.out.println("Melding: " + notification.getMessage());
-                System.out.println("Mottaker: " + notification.getRecipient());
-                System.out.println("Tidspunkt: " + notification.getTimestamp());
-                System.out.println("-----------------------");
-            }
+            notifications.forEach(notification -> System.out.println("Varsel: " + notification.getMessage()));
         }
     }
 
-    private static void tomAlleVarsler(NotificationRepositoryStub repository) {
+    private static void tomAlleVarsler(NotificationRepository repository) {
         repository.clearAll();
-        System.out.println("Alle varsler er slettet.");
+        System.out.println("Alle varsler slettet.");
     }
 
     private static void avslutt() {
         System.out.println("Avslutter programmet. Ha en fin dag!");
-        System.exit(0);
     }
 }
