@@ -4,8 +4,8 @@ import org.SHA.core.domain.Notification;
 import org.SHA.core.domain.PremadeNotification;
 import org.SHA.core.dto.DeviceDTO;
 import org.SHA.core.dto.UserDTO;
-import org.SHA.core.port.NotificationRepositoryStub;
-import org.SHA.core.port.NotificationService;
+import org.SHA.core.port.repository.NotificationRepositoryStub;
+import org.SHA.core.port.service.NotificationService;
 
 import java.time.LocalDateTime;
 import java.util.*;

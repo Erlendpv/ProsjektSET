@@ -2,8 +2,8 @@ package org.SHA.core.usecase;
 
 import org.SHA.core.domain.User;
 import org.SHA.core.domain.Device;
-import org.SHA.core.port.UserRepository;
-import org.SHA.core.port.DeviceRepository;
+import org.SHA.core.port.repository.UserRepository;
+import org.SHA.core.port.repository.DeviceRepository;
 
 import java.util.List;
 import java.util.Optional;

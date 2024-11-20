@@ -1,7 +1,7 @@
 import org.SHA.core.domain.Notification;
 import org.SHA.core.domain.PremadeNotification;
-import org.SHA.core.port.NotificationRepositoryStub;
-import org.SHA.core.port.NotificationService;
+import org.SHA.core.port.repository.NotificationRepositoryStub;
+import org.SHA.core.port.service.NotificationService;
 import org.junit.Test;
 import java.util.List;
 import static org.junit.Assert.*;

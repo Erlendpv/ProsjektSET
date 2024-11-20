@@ -1,13 +1,12 @@
-package org.SHA.core.port;
+package org.SHA.core.port.repository;
 import org.SHA.core.domain.Notification;
 import java.util.ArrayList;
 import java.util.List;
 
-// Repository for å lagre og hente varsler
-public class NotificationRepository {
+public class NotificationRepositoryStub extends NotificationRepository {
     private final List<Notification> notifications = new ArrayList<>();
 
-    // Lagrer et varsel i repositoryet
+    @Override
     public void save(Notification notification) {
         if (notification == null) {
             System.err.println("Kan ikke lagre et null-varsel.");
@@ -16,12 +15,12 @@ public class NotificationRepository {
         notifications.add(notification);
     }
 
-    // Returnerer alle varsler
+    @Override
     public List<Notification> findAll() {
         return new ArrayList<>(notifications);
     }
 
-    // Fjerner alle varsler
+    @Override
     public void clearAll() {
         notifications.clear();
     }
