@@ -64,7 +64,7 @@ public class PrototypeMain {
         System.out.print("Skriv inn e-post: ");
         String epost = scanner.nextLine();
 
-        UserDTO user = new UserDTO(id, navn, epost);
+        UserDTO user = new UserDTO(id, navn, epost, new ArrayList<>());
         users.put(id, user);
         userDevices.put(id, new ArrayList<>()); // Initialiser en tom liste med enheter for denne brukeren
         System.out.println("Bruker lagt til: " + navn);
