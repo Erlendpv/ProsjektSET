@@ -36,6 +36,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
+            try {
             System.out.println("\n--- SmartHome Assistant Prototype ---");
             System.out.println("1. Legg til bruker");
             System.out.println("2. Opprett enhet");
@@ -64,8 +65,17 @@ public class Main {
                 case 8 -> opprettOgSendTilpassetVarsel(notificationUseCase, scanner);
                 case 9 -> visAlleVarsler(notificationRepository);
                 case 10 -> tomAlleVarsler(notificationRepository);
-                case 11 -> avslutt();
+                case 11 -> {
+                    System.out.println("Avslutter programmet.");
+                    System.exit(0);
+                }
                 default -> System.out.println("Ugyldig valg, prøv igjen.");
+            }
+            } catch (InputMismatchException e) {
+                System.out.println("Ugyldig input. Vennligst skriv inn et gyldig tall.");
+                scanner.nextLine(); // Rens bufferen
+            } catch (Exception e) {
+                System.out.println("En feil oppstod: " + e.getMessage());
             }
         }
     }
@@ -196,8 +206,5 @@ public class Main {
         System.out.println("Alle varsler er slettet.");
     }
 
-    private static void avslutt() {
-        System.out.println("Avslutter programmet.");
-        System.exit(0);
-    }
+
 }
