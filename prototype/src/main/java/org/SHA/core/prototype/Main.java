@@ -5,8 +5,13 @@ import org.SHA.core.domain.Notification;
 import org.SHA.core.domain.PremadeNotification;
 import org.SHA.core.dto.DeviceDTO;
 import org.SHA.core.dto.UserDTO;
+import org.SHA.core.port.repository.DeviceRepositoryStub;
 import org.SHA.core.port.repository.NotificationRepositoryStub;
-import org.SHA.core.usecase.*;
+import org.SHA.core.port.repository.UserRepositoryStub;
+import org.SHA.core.usecase.AddDeleteDeviceUseCase;
+import org.SHA.core.usecase.AddDeleteUserUseCase;
+import org.SHA.core.usecase.ControlDeviceUseCase;
+import org.SHA.core.usecase.SendNotificationUseCase;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -19,50 +24,50 @@ public class Main {
     private static final Map<String, List<UserDTO>> deviceUsers = new HashMap<>();
 
     public static void main(String[] args) {
-        NotificationRepositoryStub repository = new NotificationRepositoryStub();
-        AddDeleteUserUseCase userUseCase = new AddDeleteUserUseCase();
-        AddDeleteDeviceUseCase deviceUseCase = new AddDeleteDeviceUseCase();
+        // Oppretter stubber for repositories
+        NotificationRepositoryStub notificationRepository = new NotificationRepositoryStub();
+        DeviceRepositoryStub deviceRepository = new DeviceRepositoryStub();
+        UserRepositoryStub userRepository = new UserRepositoryStub();
+
+        // Initialiserer use cases
+        AddDeleteUserUseCase userUseCase = new AddDeleteUserUseCase(userRepository);
+        AddDeleteDeviceUseCase deviceUseCase = new AddDeleteDeviceUseCase(userRepository, deviceRepository);
         ControlDeviceUseCase controlDeviceUseCase = new ControlDeviceUseCase();
-        SendNotificationUseCase notificationUseCase = new SendNotificationUseCase(repository);
+        SendNotificationUseCase notificationUseCase = new SendNotificationUseCase(notificationRepository);
 
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            try {
-                System.out.println("\n--- SmartHome Assistant Prototype ---");
-                System.out.println("1. Legg til bruker");
-                System.out.println("2. Opprett enhet");
-                System.out.println("3. Tildel enhet til bruker");
-                System.out.println("4. Vis brukere og deres enheter");
-                System.out.println("5. Vis enheter og deres brukere");
-                System.out.println("6. Kontrollér enhet (skru på/av)");
-                System.out.println("7. Send forhåndsdefinert varsel");
-                System.out.println("8. Opprett og send tilpasset varsel");
-                System.out.println("9. Vis alle varsler");
-                System.out.println("10. Tøm alle varsler");
-                System.out.println("11. Avslutt");
-                System.out.print("Velg et alternativ: ");
+            System.out.println("\n--- SmartHome Assistant Prototype ---");
+            System.out.println("1. Legg til bruker");
+            System.out.println("2. Opprett enhet");
+            System.out.println("3. Tildel enhet til bruker");
+            System.out.println("4. Vis brukere og deres enheter");
+            System.out.println("5. Vis enheter og deres brukere");
+            System.out.println("6. Kontrollér enhet (skru på/av)");
+            System.out.println("7. Send forhåndsdefinert varsel");
+            System.out.println("8. Opprett og send tilpasset varsel");
+            System.out.println("9. Vis alle varsler");
+            System.out.println("10. Tøm alle varsler");
+            System.out.println("11. Avslutt");
+            System.out.print("Velg et alternativ: ");
 
-                int valg = scanner.nextInt();
-                scanner.nextLine();
+            int valg = scanner.nextInt();
+            scanner.nextLine(); // Håndterer newline etter valg
 
-                switch (valg) {
-                    case 1 -> leggTilBruker(userUseCase, scanner);
-                    case 2 -> opprettEnhet(deviceUseCase, scanner);
-                    case 3 -> tildelEnhetTilBruker(scanner);
-                    case 4 -> visBrukereOgEnheter();
-                    case 5 -> visEnheterOgBrukere();
-                    case 6 -> kontrollerEnhet(controlDeviceUseCase, scanner);
-                    case 7 -> sendForhandsdefinertVarsel(notificationUseCase, scanner);
-                    case 8 -> opprettOgSendTilpassetVarsel(notificationUseCase, scanner);
-                    case 9 -> visAlleVarsler(repository);
-                    case 10 -> tomAlleVarsler(repository);
-                    case 11 -> avslutt();
-                    default -> System.out.println("Ugyldig valg, prøv igjen.");
-                }
-            } catch (RuntimeException e) {
-                System.out.println("Programmet avsluttes: " + e.getMessage());
-                break;
+            switch (valg) {
+                case 1 -> leggTilBruker(userUseCase, scanner);
+                case 2 -> opprettEnhet(deviceUseCase, scanner);
+                case 3 -> tildelEnhetTilBruker(scanner);
+                case 4 -> visBrukereOgEnheter();
+                case 5 -> visEnheterOgBrukere();
+                case 6 -> kontrollerEnhet(controlDeviceUseCase, scanner);
+                case 7 -> sendForhandsdefinertVarsel(notificationUseCase, scanner);
+                case 8 -> opprettOgSendTilpassetVarsel(notificationUseCase, scanner);
+                case 9 -> visAlleVarsler(notificationRepository);
+                case 10 -> tomAlleVarsler(notificationRepository);
+                case 11 -> avslutt();
+                default -> System.out.println("Ugyldig valg, prøv igjen.");
             }
         }
     }
@@ -70,13 +75,20 @@ public class Main {
     private static void leggTilBruker(AddDeleteUserUseCase userUseCase, Scanner scanner) {
         System.out.print("Skriv inn brukernavn: ");
         String navn = scanner.nextLine();
-        System.out.print("Skriv inn e-post: ");
-        String epost = scanner.nextLine();
-
-        UserDTO user = userUseCase.addUser(navn, epost);
-        users.put(user.getUserId(), user);
-        userDevices.put(user.getUserId(), new ArrayList<>());
-        System.out.println("Bruker lagt til: " + navn + " (ID: " + user.getUserId() + ")");
+        String epost;
+        while (true) {
+            System.out.print("Skriv inn e-post: ");
+            epost = scanner.nextLine();
+            try {
+                UserDTO user = userUseCase.addUser(navn, epost);
+                users.put(user.getUserId(), user);
+                userDevices.put(user.getUserId(), new ArrayList<>());
+                System.out.println("Bruker lagt til: " + navn + " (ID: " + user.getUserId() + ")");
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
     private static void opprettEnhet(AddDeleteDeviceUseCase deviceUseCase, Scanner scanner) {
@@ -183,6 +195,7 @@ public class Main {
     }
 
     private static void avslutt() {
-        throw new RuntimeException("Brukeren avsluttet programmet.");
+        System.out.println("Avslutter programmet.");
+        System.exit(0);
     }
 }
