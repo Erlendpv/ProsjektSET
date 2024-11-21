@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ControlDeviceUseCase implements DeviceControlService {
-    // En enkel måte å lagre statusen til enheter på
+    // En enkel måte å lagre statusen til enheter på.
     private final Map<String, String> deviceStatusMap = new HashMap<>();
 
     @Override
