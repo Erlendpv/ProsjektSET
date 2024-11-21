@@ -1,7 +1,7 @@
 import org.SHA.core.domain.Notification;
 import org.SHA.core.domain.PremadeNotification;
 import org.SHA.core.port.repository.NotificationRepository;
-import org.SHA.core.port.repository.NotificationRepositoryStub;
+import org.SHA.core.port.stub.NotificationRepositoryStub;
 import org.SHA.core.usecase.GetPremadeNotificationUseCase;
 import org.junit.Test;
 import java.util.List;

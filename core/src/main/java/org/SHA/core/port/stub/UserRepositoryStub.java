@@ -1,6 +1,7 @@
-package org.SHA.core.port.repository;
+package org.SHA.core.port.stub;
 
 import org.SHA.core.domain.User;
+import org.SHA.core.port.repository.UserRepository;
 
 import java.util.*;
 

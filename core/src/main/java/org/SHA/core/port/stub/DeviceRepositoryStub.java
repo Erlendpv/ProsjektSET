@@ -1,6 +1,7 @@
-package org.SHA.core.port.repository;
+package org.SHA.core.port.stub;
 
 import org.SHA.core.domain.Device;
+import org.SHA.core.port.repository.DeviceRepository;
 
 import java.util.HashMap;
 import java.util.Map;

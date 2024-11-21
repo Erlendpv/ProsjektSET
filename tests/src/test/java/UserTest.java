@@ -1,7 +1,7 @@
 import org.SHA.core.domain.Device;
 import org.SHA.core.domain.User;
 import org.SHA.core.dto.UserDTO;
-import org.SHA.core.port.repository.UserRepositoryStub;
+import org.SHA.core.port.stub.UserRepositoryStub;
 import org.SHA.core.usecase.AddDeleteUserUseCase;
 import org.junit.Test;
 
