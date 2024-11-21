@@ -1,66 +1,51 @@
 import org.SHA.core.domain.Device;
-import org.junit.Test;
-import static org.junit.Assert.*;
 import org.SHA.core.domain.User;
+import org.SHA.core.dto.UserDTO;
+import org.SHA.core.port.repository.UserRepositoryStub;
+import org.SHA.core.usecase.AddDeleteUserUseCase;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 public class UserTest {
 
+    private final AddDeleteUserUseCase addDeleteUserUseCase = new AddDeleteUserUseCase(new UserRepositoryStub());
 
-    //Tester at enhet-listen er tom og at konstruktøren legger til UserID, Username og Email til brukeren riktig.
     @Test
-    public void testUserConstructor() {
-
-        //Arrange og Act
-        User user = new User("202", "Benji", "Benji@hotmail.com");
-
-        //Assert
-        assertEquals("202", user.getUserId());
-        assertEquals("Benji", user.getUsername());
-        assertEquals("Benji@hotmail.com", user.getEmail());
-        assertTrue(user.getDevices().isEmpty());
+    public void testAddUser() {
+        UserDTO userDTO = addDeleteUserUseCase.addUser("Benji", "Benji@hotmail.com");
+        assertNotNull(userDTO.getUserId());
+        assertEquals("Benji", userDTO.getUsername());
+        assertEquals("Benji@hotmail.com", userDTO.getEmail());
+        assertTrue(userDTO.getDeviceIds().isEmpty());
     }
 
-
-    /*Test for å se om illegalargumentexception blir brukt når Email er ugyldig
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testUgyldigEmail() {
-    //Arrange
-        User user = new User("202", "Benji", "Benji@hotmail.com");
-    }*/
+        addDeleteUserUseCase.addUser("Benji", "ugyldigemail");
+    }
 
-
-    //Tester om enhet har blit lagt til og om det er den bestemte enheten.
     @Test
     public void testAddDevice() {
+        UserDTO userDTO = addDeleteUserUseCase.addUser("Benji", "Benji@hotmail.com");
+        User user = new User(userDTO.getUserId(), userDTO.getUsername(), userDTO.getEmail());
+        Device device = new Device("12345", "Speaker");
 
-        //Arrange
-        User user = new User("202", "Benji", "Benji@hotmail.com");
-        Device device = new Device("Marshall", "Speaker");
-
-        //Act
         user.addDevice(device);
 
-        //Assert
-        assertEquals(1, user.getDevices().size()); //test om listen inneholden 1 enhet
-        assertTrue(user.getDevices().contains(device)); //test for å se om bestemt enhet ble lagt til
-        assertFalse(user.getDevices().isEmpty()); //test for å se om listen er tom
+        assertEquals(1, user.getDevices().size());
+        assertTrue(user.getDevices().contains(device));
     }
 
-    //Tester om enhet har blit fjernet.
     @Test
     public void testRemoveDevice() {
+        UserDTO userDTO = addDeleteUserUseCase.addUser("Benji", "Benji@hotmail.com");
+        User user = new User(userDTO.getUserId(), userDTO.getUsername(), userDTO.getEmail());
+        Device device = new Device("12345", "Speaker");
 
-        //Arrange
-        User user = new User("202", "Benji", "Benji@hotmail.com");
-        Device device = new Device("Marshall", "Speaker");
-        user.addDevice(device); //legger til enhet til bruker
+        user.addDevice(device);
+        user.removeDevice(device);
 
-        //Act
-        user.removeDevice(device); //fjerner enheten
-
-        // Assert
-        assertTrue(user.getDevices().isEmpty()); //test for å se om listen er tom
-
+        assertTrue(user.getDevices().isEmpty());
     }
-
 }

@@ -12,19 +12,11 @@ public class Device {
     }
 
     public String getDeviceId() {
-        return deviceId;
-    }
-
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
+        return deviceId; // Returnerer enhetens ID
     }
 
     public String getType() {
         return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getStatus() {
@@ -34,6 +26,4 @@ public class Device {
     public void setStatus(String status) {
         this.status = status;
     }
-
-    //Relevante metoder her
 }

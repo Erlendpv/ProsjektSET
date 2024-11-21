@@ -1,5 +1,4 @@
 package org.SHA.core.prototype;
-
 import org.SHA.core.domain.CustomNotification;
 import org.SHA.core.domain.Notification;
 import org.SHA.core.domain.PremadeNotification;
@@ -12,7 +11,6 @@ import org.SHA.core.usecase.AddDeleteDeviceUseCase;
 import org.SHA.core.usecase.AddDeleteUserUseCase;
 import org.SHA.core.usecase.ControlDeviceUseCase;
 import org.SHA.core.usecase.SendNotificationUseCase;
-
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -53,7 +51,7 @@ public class Main {
             System.out.print("Velg et alternativ: ");
 
             int valg = scanner.nextInt();
-            scanner.nextLine(); // Håndterer newline etter valg
+            scanner.nextLine();
 
             switch (valg) {
                 case 1 -> leggTilBruker(userUseCase, scanner);
@@ -86,7 +84,7 @@ public class Main {
                 System.out.println("Bruker lagt til: " + navn + " (ID: " + user.getUserId() + ")");
                 break;
             } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
+                System.out.println(e.getMessage() + " Prøv igjen.");
             }
         }
     }
@@ -102,20 +100,24 @@ public class Main {
     }
 
     private static void tildelEnhetTilBruker(Scanner scanner) {
-        System.out.print("Skriv inn bruker-ID: ");
-        String userId = scanner.nextLine();
+        System.out.print("Skriv inn brukernavn: ");
+        String username = scanner.nextLine();
         System.out.print("Skriv inn enhets-ID: ");
         String deviceId = scanner.nextLine();
 
-        if (!users.containsKey(userId) || !devices.containsKey(deviceId)) {
-            System.out.println("Ugyldig bruker-ID eller enhets-ID.");
+        UserDTO user = users.values().stream()
+                .filter(u -> u.getUsername().equalsIgnoreCase(username))
+                .findFirst()
+                .orElse(null);
+
+        if (user == null || !devices.containsKey(deviceId)) {
+            System.out.println("Ugyldig brukernavn eller enhets-ID.");
             return;
         }
 
-        UserDTO user = users.get(userId);
         DeviceDTO device = devices.get(deviceId);
 
-        userDevices.get(userId).add(device);
+        userDevices.get(user.getUserId()).add(device);
         deviceUsers.get(deviceId).add(user);
         System.out.println("Enhet " + device.getType() + " tildelt til bruker " + user.getUsername());
     }
