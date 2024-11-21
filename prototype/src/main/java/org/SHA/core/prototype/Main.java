@@ -1,14 +1,12 @@
 package org.SHA.core.prototype;
+
 import org.SHA.core.domain.CustomNotification;
 import org.SHA.core.domain.Notification;
 import org.SHA.core.domain.PremadeNotification;
 import org.SHA.core.dto.DeviceDTO;
 import org.SHA.core.dto.UserDTO;
 import org.SHA.core.port.repository.NotificationRepositoryStub;
-import org.SHA.core.usecase.AddDeleteDeviceUseCase;
-import org.SHA.core.usecase.AddDeleteUserUseCase;
-import org.SHA.core.usecase.ControlDeviceUseCase;
-import org.SHA.core.usecase.SendNotificationUseCase;
+import org.SHA.core.usecase.*;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -30,36 +28,41 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.println("\n--- SmartHome Assistant Prototype ---");
-            System.out.println("1. Legg til bruker");
-            System.out.println("2. Opprett enhet");
-            System.out.println("3. Tildel enhet til bruker");
-            System.out.println("4. Vis brukere og deres enheter");
-            System.out.println("5. Vis enheter og deres brukere");
-            System.out.println("6. Kontrollér enhet (skru på/av)");
-            System.out.println("7. Send forhåndsdefinert varsel");
-            System.out.println("8. Opprett og send tilpasset varsel");
-            System.out.println("9. Vis alle varsler");
-            System.out.println("10. Tøm alle varsler");
-            System.out.println("11. Avslutt");
-            System.out.print("Velg et alternativ: ");
+            try {
+                System.out.println("\n--- SmartHome Assistant Prototype ---");
+                System.out.println("1. Legg til bruker");
+                System.out.println("2. Opprett enhet");
+                System.out.println("3. Tildel enhet til bruker");
+                System.out.println("4. Vis brukere og deres enheter");
+                System.out.println("5. Vis enheter og deres brukere");
+                System.out.println("6. Kontrollér enhet (skru på/av)");
+                System.out.println("7. Send forhåndsdefinert varsel");
+                System.out.println("8. Opprett og send tilpasset varsel");
+                System.out.println("9. Vis alle varsler");
+                System.out.println("10. Tøm alle varsler");
+                System.out.println("11. Avslutt");
+                System.out.print("Velg et alternativ: ");
 
-            int valg = scanner.nextInt();
-            scanner.nextLine();
+                int valg = scanner.nextInt();
+                scanner.nextLine();
 
-            switch (valg) {
-                case 1 -> leggTilBruker(userUseCase, scanner);
-                case 2 -> opprettEnhet(deviceUseCase, scanner);
-                case 3 -> tildelEnhetTilBruker(scanner);
-                case 4 -> visBrukereOgEnheter();
-                case 5 -> visEnheterOgBrukere();
-                case 6 -> kontrollerEnhet(controlDeviceUseCase, scanner);
-                case 7 -> sendForhandsdefinertVarsel(notificationUseCase, scanner);
-                case 8 -> opprettOgSendTilpassetVarsel(notificationUseCase, scanner);
-                case 9 -> visAlleVarsler(repository);
-                case 10 -> tomAlleVarsler(repository);
-                case 11 -> avslutt();
-                default -> System.out.println("Ugyldig valg, prøv igjen.");
+                switch (valg) {
+                    case 1 -> leggTilBruker(userUseCase, scanner);
+                    case 2 -> opprettEnhet(deviceUseCase, scanner);
+                    case 3 -> tildelEnhetTilBruker(scanner);
+                    case 4 -> visBrukereOgEnheter();
+                    case 5 -> visEnheterOgBrukere();
+                    case 6 -> kontrollerEnhet(controlDeviceUseCase, scanner);
+                    case 7 -> sendForhandsdefinertVarsel(notificationUseCase, scanner);
+                    case 8 -> opprettOgSendTilpassetVarsel(notificationUseCase, scanner);
+                    case 9 -> visAlleVarsler(repository);
+                    case 10 -> tomAlleVarsler(repository);
+                    case 11 -> avslutt();
+                    default -> System.out.println("Ugyldig valg, prøv igjen.");
+                }
+            } catch (RuntimeException e) {
+                System.out.println("Programmet avsluttes: " + e.getMessage());
+                break;
             }
         }
     }
@@ -120,10 +123,7 @@ public class Main {
         int valg = scanner.nextInt();
         scanner.nextLine();
 
-        boolean aktiv = valg == 1;
-        controlDeviceUseCase.controlDevice(deviceId, aktiv);
-        String status = aktiv ? "aktivert" : "deaktivert";
-        System.out.println("Enhet " + deviceId + " er nå " + status + ".");
+        controlDeviceUseCase.controlDevice(deviceId, valg == 1);
     }
 
     private static void visBrukereOgEnheter() {
@@ -183,7 +183,6 @@ public class Main {
     }
 
     private static void avslutt() {
-        System.out.println("Avslutter programmet.");
-        System.exit(0);
+        throw new RuntimeException("Brukeren avsluttet programmet.");
     }
 }
