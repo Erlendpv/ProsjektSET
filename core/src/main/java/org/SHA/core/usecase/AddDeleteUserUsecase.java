@@ -1,14 +1,13 @@
 package org.SHA.core.usecase;
-
 import org.SHA.core.domain.User;
-import org.SHA.core.port.UserRepository;
-
+import org.SHA.core.port.repository.UserRepository;
 import java.util.Optional;
 import java.util.UUID;
-public class AddDeleteUseUsecase {
+
+public class AddDeleteUserUsecase {
     private UserRepository userRepository;
 
-    public AddDeleteUseUsecase(UserRepository userRepository) {
+    public AddDeleteUserUsecase(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
