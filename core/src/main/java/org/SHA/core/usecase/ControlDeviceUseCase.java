@@ -8,7 +8,7 @@ import java.util.Map;
 public class ControlDeviceUseCase implements DeviceControlService {
     private final Map<String, String> deviceStatusMap = new HashMap<>();
 
-    // Kontrollerer enhetens status
+    // Kontrollerer enhetens status 
     public void controlDevice(String deviceId, boolean activate) {
         String status = activate ? "AKTIV" : "IKKE AKTIV";
         deviceStatusMap.put(deviceId, status);
