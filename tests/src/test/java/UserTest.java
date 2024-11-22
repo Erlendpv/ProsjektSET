@@ -29,7 +29,7 @@ public class UserTest {
     public void testAddDevice() {
         UserDTO userDTO = addDeleteUserUseCase.addUser("Benji", "Benji@hotmail.com");
         User user = new User(userDTO.getUserId(), userDTO.getUsername(), userDTO.getEmail());
-        Device device = new Device("12345", "Høytaller");
+        Device device = new Device("12345", "Høyttaler");
 
         user.addDevice(device);
 
@@ -41,7 +41,7 @@ public class UserTest {
     public void testRemoveDevice() {
         UserDTO userDTO = addDeleteUserUseCase.addUser("Benji", "Benji@hotmail.com");
         User user = new User(userDTO.getUserId(), userDTO.getUsername(), userDTO.getEmail());
-        Device device = new Device("12345", "Høytaller");
+        Device device = new Device("12345", "Høyttaler");
 
         user.addDevice(device);
         user.removeDevice(device);

@@ -24,13 +24,13 @@ public class UserDTOTest {
         userDTO.setUserId("002");
         userDTO.setUsername("Benji");
         userDTO.setEmail("Benji@gmail.com");
-        userDTO.setDeviceIds(Arrays.asList("Høytaler1", "Høytaler2"));
+        userDTO.setDeviceIds(Arrays.asList("Høytaller1", "Høytaller2"));
 
         // Assert (Test av oppdaterte verdier)
         assertEquals("Oppdatert BrukerID", "002", userDTO.getUserId());
         assertEquals("Oppdatert Brukernavn", "Benji", userDTO.getUsername());
         assertEquals("Oppdatert Email", "Benji@gmail.com", userDTO.getEmail());
-        assertEquals("Oppdaterte Enhets ID'er", Arrays.asList("Høytaler1", "Høytaler2"), userDTO.getDeviceIds());
+        assertEquals("Oppdaterte Enhets ID'er", Arrays.asList("Høyttaler1", "Høyttaler2"), userDTO.getDeviceIds());
     }
 }
 
