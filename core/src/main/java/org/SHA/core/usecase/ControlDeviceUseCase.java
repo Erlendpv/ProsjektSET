@@ -10,7 +10,7 @@ public class ControlDeviceUseCase implements DeviceControlService {
 
     // Kontrollerer enhetens status
     public void controlDevice(String deviceId, boolean activate) {
-        String status = activate ? "ACTIVE" : "INACTIVE";
+        String status = activate ? "AKTIV" : "IKKE AKTIV";
         deviceStatusMap.put(deviceId, status);
         System.out.println("Enhet " + deviceId + " er nå " + status.toLowerCase() + ".");
     }
