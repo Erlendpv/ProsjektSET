@@ -8,16 +8,16 @@ public class DeviceDTOTest {
     @Test
     public void testConstructorAndGetters() {
 
-        DeviceDTO device = new DeviceDTO("12345", "Sensor", "Active");
+        DeviceDTO device = new DeviceDTO("12345", "Sensor", "Aktiv");
 
         assertEquals("12345", device.getDeviceId());
         assertEquals("Sensor", device.getType());
-        assertEquals("Active", device.getStatus());
+        assertEquals("Aktiv", device.getStatus());
     }
 
     @Test
     public void testSetDeviceId() {
-        DeviceDTO device = new DeviceDTO("12345", "Sensor", "Active");
+        DeviceDTO device = new DeviceDTO("12345", "Sensor", "Aktiv");
 
         device.setDeviceId("67890");
         assertEquals("67890", device.getDeviceId());
@@ -25,17 +25,17 @@ public class DeviceDTOTest {
 
     @Test
     public void testSetType() {
-        DeviceDTO device = new DeviceDTO("12345", "Sensor", "Active");
+        DeviceDTO device = new DeviceDTO("12345", "Sensor", "Aktiv");
 
-        device.setType("Camera");
-        assertEquals("Camera", device.getType());
+        device.setType("Kamera");
+        assertEquals("Kamera", device.getType());
     }
 
     @Test
     public void testSetStatus() {
-        DeviceDTO device = new DeviceDTO("12345", "Sensor", "Active");
+        DeviceDTO device = new DeviceDTO("12345", "Sensor", "Aktiv");
 
-        device.setStatus("Inactive");
-        assertEquals("Inactive", device.getStatus());
+        device.setStatus("Inaktiv");
+        assertEquals("Inaktiv", device.getStatus());
     }
 }
