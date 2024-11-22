@@ -8,7 +8,7 @@ public class Device {
     public Device(String deviceId, String type) {
         this.deviceId = deviceId;
         this.type = type;
-        this.status = "offline";
+        this.status = "Frakoblet";
     }
 
     public String getDeviceId() {

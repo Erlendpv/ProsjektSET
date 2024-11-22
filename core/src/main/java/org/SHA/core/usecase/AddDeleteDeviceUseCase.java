@@ -28,7 +28,7 @@ public class AddDeleteDeviceUseCase {
         deviceRepository.save(newDevice);
 
         // Returnerer DeviceDTO med status "INACTIVE" som standard
-        return new DeviceDTO(deviceId, deviceType, "INACTIVE");
+        return new DeviceDTO(deviceId, deviceType, "INAKTIV");
     }
 
     // Sletter en enhet og fjerner den fra brukerens enhetsliste
